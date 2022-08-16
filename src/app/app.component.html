@@ -1,11 +1,44 @@
-<ion-toolbar>
+<ion-toolbar >
   <ion-title> TodoApp </ion-title>
   <ion-buttons slot="end">
-    <ion-button>
-      Login
-      <ion-icon name="log-in-outline"></ion-icon>
-    </ion-button>
+    <ng-container *ngIf="auth.currentUser$ | async as user; else logInBtn">
+      <ion-menu-toggle>
+          {{user.displayName}}
+          <ion-icon name="person-circle-outline"></ion-icon>
+      </ion-menu-toggle>
+
+<!--      <ion-button (click)="logout()">-->
+<!--        LogOut-->
+<!--        <ion-icon name="log-out-outline"></ion-icon>-->
+<!--      </ion-button>-->
+    </ng-container>
+    <ng-template #logInBtn>
+      <ion-button>
+        Login
+        <ion-icon name="log-in-outline"></ion-icon>
+      </ion-button>
+    </ng-template>
   </ion-buttons>
 </ion-toolbar>
-
-<router-outlet></router-outlet>
+<router-outlet id="main"></router-outlet>
+<ion-menu side="end" menuId="first" contentId="main">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Todo Setings</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item
+        button
+        (click)="logout()"
+         >
+        Log out
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-item>
+      <ion-item>Menu Item</ion-item>
+      <ion-item>Menu Item</ion-item>
+      <ion-item>Menu Item</ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
