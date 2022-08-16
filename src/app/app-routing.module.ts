@@ -10,7 +10,7 @@ const routes: Routes = [
     component: AuthComponent
   },
   {
-    path: 'home/:id',
+    path: 'home',
     loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule),
     component: HomeComponent
   }
