@@ -4,9 +4,10 @@ import {
   authState,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  updateProfile
+  updateProfile,
 } from '@angular/fire/auth';
-import {from, switchMap} from 'rxjs';
+import { from, switchMap } from 'rxjs';
+import firebase from 'firebase/compat';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,9 @@ export class AuthService {
   constructor(private auth: Auth) {}
 
   signup(username: string, password: string, email: string) {
-    return from(createUserWithEmailAndPassword(this.auth,email, password)).pipe(
+    return from(
+      createUserWithEmailAndPassword(this.auth, email, password)
+    ).pipe(
       switchMap(({ user }) => updateProfile(user, { displayName: username }))
     );
   }
@@ -26,5 +29,8 @@ export class AuthService {
   }
   logout() {
     return from(this.auth.signOut());
+  }
+  get userId() {
+    return this.auth.currentUser?.uid;
   }
 }
