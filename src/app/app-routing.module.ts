@@ -38,7 +38,7 @@ const routes: Routes = [
         component: NewNoteComponent
       },
       {
-        path: 'note/:id',
+        path: ':id',
         loadChildren: () => import('./features/detail/edit/edit.module').then(m => m.EditModule),
         component: EditComponent,
       }

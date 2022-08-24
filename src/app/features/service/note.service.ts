@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Note } from '../interface/note';
-import {BehaviorSubject, map, switchMap, take, tap} from 'rxjs';
+import {BehaviorSubject, map, of, switchMap, take, tap} from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import {AuthService} from "../auth/services/auth.service";
 import {NoteData} from "../interface/note.data";
@@ -47,26 +47,45 @@ export class NoteService {
       );
   }
 
-  fetchUserNotes(){
-    return this.http.get<{[key: string]: NoteData}>(`https://todoapp-75f25-default-rtdb.firebaseio.com/notes.json?orderBy="userId"&equalTo="${this.auth.userId}"`)
+  updateNote(noteId: string, title: string, content: string){
+    let updatedNotes: Note[];
+    return this.notes.pipe(
+      take(1),
+      switchMap(notes => {
+        if(!notes || notes.length <= 0){
+          return this.fetchNotes();
+        } else {
+          return of(notes);
+        }
+      }),
+      switchMap(notes => {
+        const updatedNoteIndex = notes.findIndex(note => note.id === noteId);
+        updatedNotes = [...notes];
+        const oldNote = updatedNotes[updatedNoteIndex];
+        updatedNotes[updatedNoteIndex] = new Note(
+          oldNote.id,
+          title,
+          content,
+          oldNote.userId
+        );
+        return this.http.put(`https://todoapp-75f25-default-rtdb.firebaseio.com/notes/${noteId}.json`,
+          {...updatedNotes[updatedNoteIndex], id: null});
+      }),
+      tap(() => {
+        this.notes.next(updatedNotes);
+      })
+    );
+  }
+
+  fetchNoteById(noteId: string){
+    return this.http.get<NoteData>(`https://todoapp-75f25-default-rtdb.firebaseio.com/notes/${noteId}.json`)
       .pipe(
-        map(NoteData =>{
-          const notes = [];
-          for (const key in NoteData){
-            if(NoteData.hasOwnProperty(key)){
-              notes.push(new Note(
-                  key,
-                  NoteData[key].title,
-                  NoteData[key].content,
-                  NoteData[key].userId
-              ));
-            }
-          }
-          return notes;
-        }),
-        tap(notes => {
-          this.notes.next(notes);
-        })
+        map(noteData => new Note(
+          noteId,
+          noteData.title,
+          noteData.content,
+          noteData.userId
+        ))
       );
   }
 
