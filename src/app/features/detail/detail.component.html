@@ -1,5 +1,8 @@
 <ng-container *ngIf="notes; else loading">
-  <ion-item *ngFor="let note of notes " >
+  <ion-item
+    *ngFor="let note of notes "
+    [routerLink]="['/note', note.id]"
+  >
     <ion-label>{{ note.title}}</ion-label>
   </ion-item>
 </ng-container>

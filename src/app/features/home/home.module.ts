@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {HomeComponent} from "./home.component";
 import {DetailComponent} from "../detail/detail.component";
 import {IonicModule} from "@ionic/angular";
+import {RouterModule} from "@angular/router";
 
 @NgModule({
     declarations: [
@@ -11,7 +12,8 @@ import {IonicModule} from "@ionic/angular";
     ],
     imports: [
         CommonModule,
-        IonicModule
+        IonicModule,
+        RouterModule
     ],
 })
 export class HomeModule {}
