@@ -29,7 +29,7 @@ export class NoteService {
       Math.random().toString(),
       title,
       content,
-      this.auth.userId
+      this.auth.userId ?? ''
     );
 
     return this.http.post<{ name: string }>('https://todoapp-75f25-default-rtdb.firebaseio.com/notes.json',
@@ -84,7 +84,7 @@ export class NoteService {
           noteId,
           noteData.title,
           noteData.content,
-          noteData.userId
+          noteData.userId ?? ''
         ))
       );
   }
@@ -100,7 +100,7 @@ export class NoteService {
                 key,
                 NoteData[key].title,
                 NoteData[key].content,
-                NoteData[key].userId
+                NoteData[key].userId ?? ''
               ));
             }
           }

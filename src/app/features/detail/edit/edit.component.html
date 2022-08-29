@@ -14,6 +14,13 @@
         color="primary"
         [disabled]="!editForm.valid"
         (click)="updateNote()">Save Note</ion-button>
+      <ion-button
+        color="danger"
+        [disabled]="!editForm.valid"
+        (click)="deleteNote()"
+      >
+        Delete Note
+      </ion-button>
     </form>
   </ion-card-content>
 </ion-card>

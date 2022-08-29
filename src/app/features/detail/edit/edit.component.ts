@@ -3,7 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
 import {NoteService} from "../../service/note.service";
 import {Note} from "../../interface/note";
-import {NavController} from "@ionic/angular";
+import {LoadingController, NavController} from "@ionic/angular";
 
 @Component({
   selector: 'app-edit',
@@ -19,7 +19,8 @@ export class EditComponent implements OnInit {
   constructor(
     private router: ActivatedRoute,
     private noteService: NoteService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private loadingCtrl: LoadingController
   ) { }
 
   ngOnInit(): void {
@@ -49,6 +50,18 @@ export class EditComponent implements OnInit {
       this.editForm.value.content ?? ''
     ).subscribe(() => {
       this.navCtrl.navigateBack('/home')
+    })
+  }
+
+  deleteNote(){
+    this.loadingCtrl.create({
+      message: 'Deleting note...'
+    }).then(loadingEl => {
+      loadingEl.present();
+      this.noteService.deleteNote(this.note.id).subscribe(() => {
+        loadingEl.dismiss();
+        this.navCtrl.navigateBack('/home')
+      })
     })
   }
 

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {AuthService} from "./features/auth/services/auth.service";
 import {Router} from "@angular/router";
+import {MenuController} from "@ionic/angular";
 
 @Component({
   selector: 'app-root',
@@ -8,14 +9,17 @@ import {Router} from "@angular/router";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
   constructor(
     public auth: AuthService,
-    private router: Router
+    private router: Router,
+    private menuCrtl: MenuController
   ) {}
 
-  logout() {
+  public logout() {
     this.auth.logout().subscribe(() => {
       this.router.navigateByUrl('/auth');
     })
   }
+
 }

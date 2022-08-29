@@ -8,11 +8,13 @@ import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import {HttpClientModule} from "@angular/common/http";
+import { MenuDirective } from './features/directives/menu.directive';
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    MenuDirective,
   ],
   imports: [
     BrowserModule,

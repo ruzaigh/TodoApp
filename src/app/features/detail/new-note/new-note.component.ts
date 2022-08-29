@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {LoadingController} from "@ionic/angular";
 import {NoteService} from "../../service/note.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-new-note',
@@ -15,7 +16,8 @@ export class NewNoteComponent implements OnInit {
   })
   constructor(
     private loadingCrtl: LoadingController,
-    private noteService: NoteService
+    private noteService: NoteService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -35,6 +37,7 @@ export class NewNoteComponent implements OnInit {
         this.form.value.content ?? ''
           ).subscribe();
         loadingEl.dismiss();
+        this.router.navigate(['/home']);
       })
   }
 }

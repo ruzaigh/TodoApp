@@ -29,16 +29,29 @@
   </ion-header>
   <ion-content>
     <ion-list>
-      <ion-item button (click)="logout()">
-        Log out
-        <ion-icon name="log-out-outline"></ion-icon>
+      <ion-item
+      button
+      routerLink="/home"
+      appMenu
+      >
+        Home
+        <ion-icon name="home-outline"></ion-icon>
       </ion-item>
-      <ion-item button routerLink="/note/new">
+      <ion-item
+        button
+        routerLink="/note/new"
+        appMenu
+        >
         New Note
         <ion-icon name="add-circle-outline"></ion-icon>
       </ion-item>
-      <ion-item>Menu Item</ion-item>
-      <ion-item>Menu Item</ion-item>
+      <ion-item
+        button
+        (click)="logout()"
+        appMenu>
+        Log out
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-item>
     </ion-list>
   </ion-content>
 </ion-menu>
