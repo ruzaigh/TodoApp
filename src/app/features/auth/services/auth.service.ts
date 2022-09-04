@@ -7,7 +7,6 @@ import {
   updateProfile,
 } from '@angular/fire/auth';
 import { from, switchMap } from 'rxjs';
-import firebase from 'firebase/compat';
 
 @Injectable({
   providedIn: 'root',

@@ -10,6 +10,8 @@ import {
 import { AuthService } from './services/auth.service';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import {Store} from "@ngrx/store";
+import {authLogin} from "./store/actions/auth.actions";
 
 export function passwordMatchValidator(): ValidatorFn{
   return(control:AbstractControl): ValidationErrors | null => {
@@ -46,7 +48,8 @@ export class AuthComponent implements OnInit {
   constructor(
     private auth: AuthService,
     private router: Router,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private store: Store
   ) {}
 
   ngOnInit() {}
@@ -56,27 +59,8 @@ export class AuthComponent implements OnInit {
       return;
     }
     const { email, password } = this.loginForm.value;
-    this.auth.login(email ?? '', password ?? '').subscribe(
-      () => {
-        this.toastCtrl
-          .create({
-            position: 'top',
-            message: 'Login Successful',
-            duration: 2000,
-          })
-          .then((toast) => toast.present());
-        this.router.navigateByUrl('/home');
-      },
-      (err) => {
-        this.toastCtrl
-          .create({
-            position: 'top',
-            message: err.message,
-            duration: 2000,
-          })
-          .then((toast) => toast.present());
-      }
-    );
+    // @ts-ignore
+    this.store.dispatch(authLogin({ email, password  }));
   }
 
   submitSignupForm(){
